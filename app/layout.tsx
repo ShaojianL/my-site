@@ -30,8 +30,8 @@ const unifrakturCook = UnifrakturCook({
 });
 
 export const metadata: Metadata = {
-  title: "The Offer",
-  description: "A very small question.",
+  title: "Test Site",
+  description: "Test question.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

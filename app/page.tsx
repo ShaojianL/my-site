@@ -113,7 +113,7 @@ export default function Home() {
   return (
     <main className="offer-page">
       <div className="offer-panel">
-        <p className="offer-kicker">A small question</p>
+        <p className="offer-kicker">Test prompt</p>
         <h1>Do you want to go on a date with me?</h1>
         <div
           aria-label="Offer response"
