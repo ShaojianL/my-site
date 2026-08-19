@@ -98,11 +98,8 @@ h1 {
 }
 
 .button-arena {
-  align-items: center;
-  display: flex;
-  gap: 16px;
+  display: block;
   height: 138px;
-  justify-content: center;
   margin: 28px auto -6px;
   max-width: 360px;
   position: relative;
@@ -125,6 +122,10 @@ h1 {
   background: var(--accent);
   border-color: var(--accent-dark);
   color: white;
+  left: calc(50% - 104px);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .yes-button:hover {
@@ -139,7 +140,10 @@ h1 {
   font-size: 0.76rem;
   min-width: 68px;
   padding: 10px 16px;
-  position: relative;
+  left: calc(50% + 12px);
+  position: absolute;
+  top: calc(50% - 18px);
+  transform: translateY(-50%);
   z-index: 1;
 }
 

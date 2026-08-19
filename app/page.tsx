@@ -10,6 +10,7 @@ const clamp = (value: number, minimum: number, maximum: number) =>
 export default function Home() {
   const [noOffset, setNoOffset] = useState({ x: 0, y: 0 });
   const arenaRef = useRef<HTMLDivElement>(null);
+  const yesButtonRef = useRef<HTMLButtonElement>(null);
   const noButtonRef = useRef<HTMLButtonElement>(null);
   const lastDodgeRef = useRef(0);
 
@@ -23,6 +24,7 @@ export default function Home() {
     }
 
     const arenaRect = arena.getBoundingClientRect();
+    const yesButton = yesButtonRef.current;
     const buttonRect = noButton.getBoundingClientRect();
     const pointerX = event.clientX;
     const pointerY = event.clientY;
@@ -67,7 +69,17 @@ export default function Home() {
         arenaRect.bottom - buttonRect.height - padding,
       );
 
+      const candidateRight = targetLeft + buttonRect.width;
+      const candidateBottom = targetTop + buttonRect.height;
+      const avoidsYes =
+        !yesButton ||
+        candidateRight < yesButton.getBoundingClientRect().left - 12 ||
+        targetLeft > yesButton.getBoundingClientRect().right + 12 ||
+        candidateBottom < yesButton.getBoundingClientRect().top - 12 ||
+        targetTop > yesButton.getBoundingClientRect().bottom + 12;
+
       return {
+        avoidsYes,
         x: targetLeft - baseLeft,
         y: targetTop - baseTop,
         distance: Math.hypot(
@@ -76,7 +88,9 @@ export default function Home() {
         ),
       };
     });
-    const target = candidates.reduce((best, candidate) =>
+    const safeCandidates = candidates.filter((candidate) => candidate.avoidsYes);
+    const target = (safeCandidates.length > 0 ? safeCandidates : candidates).reduce(
+      (best, candidate) =>
       candidate.distance > best.distance ? candidate : best,
     );
 
@@ -99,7 +113,11 @@ export default function Home() {
           onPointerMove={dodgeNoButton}
           ref={arenaRef}
         >
-          <button className="offer-button yes-button" type="button">
+          <button
+            className="offer-button yes-button"
+            ref={yesButtonRef}
+            type="button"
+          >
             Yes
           </button>
           <button
