@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRef } from "react";
-import type { PointerEvent } from "react";
+import type { MouseEvent, PointerEvent } from "react";
 
 const clamp = (value: number, minimum: number, maximum: number) =>
   Math.min(Math.max(value, minimum), maximum);
@@ -14,12 +14,19 @@ export default function Home() {
   const noButtonRef = useRef<HTMLButtonElement>(null);
   const lastDodgeRef = useRef(0);
 
-  const dodgeNoButton = (event: PointerEvent<HTMLDivElement>) => {
+  const dodgeNoButton = (
+    event: PointerEvent<HTMLDivElement> | MouseEvent<HTMLButtonElement>,
+    forceEscape = false,
+  ) => {
     const arena = arenaRef.current;
     const noButton = noButtonRef.current;
     const now = performance.now();
 
-    if (!arena || !noButton || now - lastDodgeRef.current < 220) {
+    if (
+      !arena ||
+      !noButton ||
+      (!forceEscape && now - lastDodgeRef.current < 220)
+    ) {
       return;
     }
 
@@ -42,10 +49,11 @@ export default function Home() {
 
     const awayX = buttonCenterX - pointerX;
     const awayY = buttonCenterY - pointerY;
-    const awayLength = Math.hypot(awayX, awayY) || 1;
-    const directionX = awayX / awayLength;
-    const directionY = awayY / awayLength;
-    const escapeDistance = 128;
+    const awayLength = Math.hypot(awayX, awayY);
+    const fallbackAngle = Math.random() * Math.PI * 2;
+    const directionX = awayLength ? awayX / awayLength : Math.cos(fallbackAngle);
+    const directionY = awayLength ? awayY / awayLength : Math.sin(fallbackAngle);
+    const escapeDistance = forceEscape ? 160 : 128;
     const angles = [0, 45, -45, 90, -90, 135, -135, 180];
     const padding = 8;
     const baseLeft = buttonRect.left - noOffset.x;
@@ -122,6 +130,7 @@ export default function Home() {
           </button>
           <button
             className="offer-button no-button"
+            onClick={(event) => dodgeNoButton(event, true)}
             ref={noButtonRef}
             style={{ transform: `translate(${noOffset.x}px, ${noOffset.y}px)` }}
             type="button"
