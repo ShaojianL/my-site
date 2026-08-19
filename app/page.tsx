@@ -3,11 +3,15 @@
 import { useState } from "react";
 import { useRef } from "react";
 import type { MouseEvent, PointerEvent } from "react";
+import { useRouter } from "next/navigation";
+
+import { AppRoutes } from "./lib/routes";
 
 const clamp = (value: number, minimum: number, maximum: number) =>
   Math.min(Math.max(value, minimum), maximum);
 
 export default function Home() {
+  const router = useRouter();
   const [noOffset, setNoOffset] = useState({ x: 0, y: 0 });
   const arenaRef = useRef<HTMLDivElement>(null);
   const yesButtonRef = useRef<HTMLButtonElement>(null);
@@ -123,6 +127,8 @@ export default function Home() {
         >
           <button
             className="offer-button yes-button"
+            onClick={() => router.push(AppRoutes.activitiesSelection)}
+            onPointerEnter={() => router.prefetch(AppRoutes.activitiesSelection)}
             ref={yesButtonRef}
             type="button"
           >
