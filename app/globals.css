@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0e0c0d;
+  --foreground: #eadfce;
+  --ink-soft: #a99a87;
+  --accent: #a52e3a;
+  --accent-dark: #c7444c;
+  --panel: #191517;
+  --gold: #b9a171;
 }
 
 @theme inline {
@@ -12,15 +17,148 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+.offer-page {
+  align-items: center;
+  background-color: var(--background);
+  background-image:
+    linear-gradient(rgba(185, 161, 113, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(185, 161, 113, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 50% 42%, rgba(145, 39, 51, 0.2), transparent 45%);
+  background-size: 42px 42px, 42px 42px, auto;
+  display: flex;
+  justify-content: center;
+  min-height: 100dvh;
+  overflow: hidden;
+  padding: 24px;
+}
+
+.offer-panel {
+  background: linear-gradient(145deg, rgba(35, 28, 31, 0.98), rgba(19, 16, 18, 0.98));
+  border: 1px solid rgba(185, 161, 113, 0.52);
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 7px rgba(185, 161, 113, 0.055),
+    inset 0 0 0 8px rgba(185, 161, 113, 0.24);
+  max-width: 620px;
+  padding: clamp(40px, 8vw, 86px) clamp(24px, 8vw, 84px) 52px;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.offer-panel::before,
+.offer-panel::after {
+  color: var(--gold);
+  font-family: var(--font-cormorant), serif;
+  font-size: 1.8rem;
+  line-height: 1;
+  position: absolute;
+}
+
+.offer-panel::before {
+  content: "†";
+  left: 24px;
+  top: 22px;
+}
+
+.offer-panel::after {
+  bottom: 20px;
+  content: "†";
+  right: 24px;
+}
+
+.offer-kicker {
+  color: var(--gold);
+  font-family: var(--font-cormorant), serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  margin: 0 0 20px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(3rem, 8vw, 5.6rem);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 0.88;
+  margin: 0;
+  max-width: 480px;
+}
+
+.button-arena {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  height: 138px;
+  justify-content: center;
+  margin: 28px auto -6px;
+  max-width: 360px;
+  position: relative;
+  width: 100%;
+}
+
+.offer-button {
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  min-width: 92px;
+  padding: 14px 24px;
+  text-transform: uppercase;
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.yes-button {
+  background: var(--accent);
+  border-color: var(--accent-dark);
+  color: white;
+}
+
+.yes-button:hover {
+  background: var(--accent-dark);
+  box-shadow: 0 0 22px rgba(199, 68, 76, 0.3);
+}
+
+.no-button {
+  background: transparent;
+  border-color: rgba(185, 161, 113, 0.48);
+  color: var(--ink-soft);
+  font-size: 0.76rem;
+  min-width: 68px;
+  padding: 10px 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.no-button:hover {
+  background: rgba(185, 161, 113, 0.08);
+  border-color: var(--gold);
+}
+
+@media (max-width: 420px) {
+  .offer-panel {
+    padding-inline: 18px;
+  }
+
+  .button-arena {
+    gap: 10px;
+  }
+
+  .offer-button {
+    min-width: 82px;
+    padding-inline: 18px;
+  }
 }
